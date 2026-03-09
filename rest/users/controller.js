@@ -1,8 +1,8 @@
-'use strict';
-const model = require('./model');
+"use strict";
+const model = require("./model");
 
 function listAction(req, res) {
-  console.log('list overview');
+  console.log("list overview");
   model
     .get()
     .then((users) => {
@@ -13,7 +13,7 @@ function listAction(req, res) {
 }
 
 function detailAction(req, res) {
-  console.log('detail:', req.params.id);
+  console.log("detail:", req.params.id);
   model
     .get(req.params.id)
     .then((user) => {
@@ -29,7 +29,7 @@ function detailAction(req, res) {
 }
 
 function createAction(req, res) {
-  console.log('create');
+  console.log("create");
   const newUser = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -37,21 +37,30 @@ function createAction(req, res) {
   model
     .save(newUser)
     .then((user) => {
-      console.log('created', JSON.stringify(user));
+      console.log("created", JSON.stringify(user));
       res.status(201).json(user);
     })
     .catch((err) => handleError(err, req, res));
 }
 
+function deleteAction(req, res) {
+  console.log("deleting");
+  return model.remove(req.params.id).then(() => {
+    res.status(204).json({});
+  });
+}
+
 function handleError(err, req, res) {
-  if (typeof err === 'object' && err.message) {
+  if (typeof err === "object" && err.message) {
     err = { error: err.message };
-  } else if (typeof err === 'string') {
+  } else if (typeof err === "string") {
     err = { error: err };
   } else {
-    err = { error: 'unknown error occured' };
+    err = { error: "unknown error occured" };
   }
-  console.log(`ERROR on [${req.method}] via ${req.originalUrl}: [${err.error}]`);
+  console.log(
+    `ERROR on [${req.method}] via ${req.originalUrl}: [${err.error}]`,
+  );
   res.status(500).json(err);
 }
 
@@ -59,4 +68,5 @@ module.exports = {
   listAction,
   detailAction,
   createAction,
+  deleteAction,
 };

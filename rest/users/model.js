@@ -42,7 +42,7 @@ function getAll() {
 }
 
 function getSpecific(type, searchParameter) {
-  if (type !== "id" || type !== "firstname" || type !== "lastname") {
+  if (type !== "id" && type !== "firstname" && type !== "lastname") {
     throw new Error("invalid type, use: id, firstname or lastname");
   } else {
     return new Promise((resolve, reject) => {
@@ -73,7 +73,20 @@ function insert(user) {
   });
 }
 
-function deleteUser() {}
+function remove(id) {
+  return new Promise((resolve, reject) => {
+    console.log("delete user with id: ", id);
+    const query =
+      "DELETE FROM users where id = ? RETURNING firstname, lastname";
+    const stmt = db.prepare(query);
+    stmt.run([id], (err, res) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(res);
+    });
+  });
+}
 
 module.exports = {
   get(id) {
@@ -89,4 +102,5 @@ module.exports = {
   save(user) {
     return insert(user);
   },
+  remove,
 };
