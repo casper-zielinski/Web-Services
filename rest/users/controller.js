@@ -43,6 +43,17 @@ function createAction(req, res) {
     .catch((err) => handleError(err, req, res));
 }
 
+function editAction(req, res) {
+  console.log("editing with all fields");
+
+  model
+    .edit(req.body.firstname, req.body.lastname, req.params.id)
+    .then((user) => {
+      console.log("edited user: ", user);
+      return res.status(200).json(user);
+    });
+}
+
 function deleteAction(req, res) {
   console.log("deleting");
   return model.remove(req.params.id).then(() => {
@@ -69,4 +80,5 @@ module.exports = {
   detailAction,
   createAction,
   deleteAction,
+  editAction
 };
