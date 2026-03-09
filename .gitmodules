@@ -1,0 +1,3 @@
+[submodule "rest"]
+	path = rest
+	url = https://git-iit.fh-joanneum.at/msd-webserv/ss26-exercises/rest
