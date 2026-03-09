@@ -47,7 +47,7 @@ function editAction(req, res) {
   console.log("editing with all fields");
 
   model
-    .edit(req.body.firstname, req.body.lastname, req.params.id)
+    .editSpecific(req.body.firstname, req.body.lastname, req.params.id)
     .then((user) => {
       console.log("edited user: ", user);
       return res.status(200).json(user);

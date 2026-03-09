@@ -14,5 +14,6 @@ router.get("/:id", detailAction);
 router.post("/", createAction);
 router.delete("/:id", deleteAction);
 router.put("/:id", editAction);
+router.patch("/:id", editAction);
 
 module.exports = router;

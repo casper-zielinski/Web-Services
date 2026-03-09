@@ -107,6 +107,41 @@ function edit(firstname, lastname, id) {
   });
 }
 
+function editSpecific(firstname, lastname, id) {
+  return new Promise((resolve, reject) => {
+    console.log("editing specific user info");
+    let query = "UPDATE users SET";
+    let queryArray = [];
+    if (firstname) {
+      query += " firstname = ?";
+      queryArray.push(firstname);
+      if (lastname) {
+        query += ", lastname = ?";
+        queryArray.push(lastname);
+      }
+    } else if (lastname) {
+      query += "lastname = ?";
+      queryArray.push(lastname);
+    }
+    query += " WHERE id = ?";
+    queryArray.push(id);
+    console.log(query);
+     console.log(queryArray);
+    const stmt = db.prepare(query);
+    stmt.run(queryArray, (err, res) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve({
+        id: id,
+        firstname: firstname,
+        lastname: lastname,
+      });
+    });
+  });
+}
+
 module.exports = {
   get(id) {
     if (!id) {
@@ -122,5 +157,6 @@ module.exports = {
     return insert(user);
   },
   remove,
-  edit
+  edit,
+  editSpecific,
 };
