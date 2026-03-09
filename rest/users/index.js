@@ -5,6 +5,7 @@ const {
   createAction,
   deleteAction,
   editAction,
+  fullEditAction,
 } = require("./controller");
 
 const router = require("express").Router();
@@ -13,7 +14,7 @@ router.get("/", listAction);
 router.get("/:id", detailAction);
 router.post("/", createAction);
 router.delete("/:id", deleteAction);
-router.put("/:id", editAction);
+router.put("/:id", fullEditAction);
 router.patch("/:id", editAction);
 
 module.exports = router;

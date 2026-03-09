@@ -90,25 +90,6 @@ function remove(id) {
 
 function edit(firstname, lastname, id) {
   return new Promise((resolve, reject) => {
-    console.log("editing user with id: ", id);
-    const query = "UPDATE users SET firstname = ?, lastname = ? WHERE id = ?";
-    const stmt = db.prepare(query);
-    stmt.run([firstname, lastname, id], (err, res) => {
-      if (err) {
-        return reject(err);
-      }
-
-      resolve({
-        id: id,
-        firstname: firstname,
-        lastname: lastname,
-      });
-    });
-  });
-}
-
-function editSpecific(firstname, lastname, id) {
-  return new Promise((resolve, reject) => {
     console.log("editing specific user info");
     let query = "UPDATE users SET";
     let queryArray = [];
@@ -158,5 +139,4 @@ module.exports = {
   },
   remove,
   edit,
-  editSpecific,
 };

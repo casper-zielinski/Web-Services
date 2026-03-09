@@ -44,10 +44,24 @@ function createAction(req, res) {
 }
 
 function editAction(req, res) {
-  console.log("editing with all fields");
+  console.log("editing");
 
   model
-    .editSpecific(req.body.firstname, req.body.lastname, req.params.id)
+    .edit(req.body.firstname, req.body.lastname, req.params.id)
+    .then((user) => {
+      console.log("edited user: ", user);
+      return res.status(200).json(user);
+    });
+}
+
+function fullEditAction(req, res) {
+  console.log("editing");
+  if (!req.body.firstname || !req.body.lastname || !req.params.id) {
+    res.status(400).json("Missing Fields");
+  }
+
+  model
+    .edit(req.body.firstname, req.body.lastname, req.params.id)
     .then((user) => {
       console.log("edited user: ", user);
       return res.status(200).json(user);
@@ -80,5 +94,6 @@ module.exports = {
   detailAction,
   createAction,
   deleteAction,
-  editAction
+  editAction,
+  fullEditAction,
 };
