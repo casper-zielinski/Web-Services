@@ -10,9 +10,11 @@
   ],
   "scripts": {
     "install-all": "npm install --workspaces",
-    "start-backend": "npm start --workspace=backend",
+    "start-backend": "npm run start-reporter --workspace=backend",
+    "start-backend-reporter": "npm run start-reporter --workspace=backend",
     "start-frontend": "npm start --workspace=frontend",
-    "start-all": "concurrently \"npm start --workspace=backend\" \"npm start --workspace=frontend\""
+    "start-all": "concurrently \"npm start --workspace=backend\" \"npm start --workspace=frontend\"",
+    "start-all-reporter": "concurrently \"npm run start-reporter --workspace=backend\" \"npm start --workspace=frontend\""
   },
   "devDependencies": {
     "concurrently": "^9.0.0"

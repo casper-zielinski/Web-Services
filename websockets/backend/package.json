@@ -4,7 +4,8 @@
   "description": "WebSocket backend service server project",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start-reporter": "node server_reporter.js"
   },
   "contributors": [
     {
