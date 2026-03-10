@@ -76,12 +76,17 @@ You will find multiple CHECKPOINTS during this exercise. When you pass a checkpo
 
 | **Program Feature** | **WebSocket Function (EventHandler)** | **Short Description of Behavior** |
 |---------------------|--------------------------------------|----------------------------------|
-| Receive messages (client) |  |  |
-| Receive messages (server) |  |  |
-| Send messages (client) |  |  |
-| Send messages (server) |  |  |
-| New connection (client) |  |  |
-| New connection (server) |  |  |
+| Receive messages (client) | connection.onmessage and addMessage | message gets added to content variable and depending who send it, message get's appendend on eiter the center or the end of the x-axis|
+| Receive messages (server) | connection.on('message', ...) | parsing send data to a JSON object and checking for vaild type as well as if a username is provided, if not, assigning one as well as color, so first message is not a message but choosing username, then in the second it create the chatMessage Object and pushes it to the history array as well as sending to all users the message  |
+| Send messages (client) | input.addEventlistener('keydown') | sending a JSON String to the server and clearing the input fields  |
+| Send messages (server) | connection.on('message', ...) in the clients.forEach((client) => client.sendUTF(json)); | sends as UTF the JSON String to all users existing out of time, text, author and the color. |
+| New connection (client) | connection.onopen = () => {
+  input.removeAttribute('disabled');
+  input.value = '';
+  input.setAttribute('placeholder', 'Choose name');
+  status.textContent = 'Choose name: ';
+}; | User as to choose name as first message and also a Error Message if the Browser does not support WebSockets |
+| New connection (server) | wsServer.on("request", ...) | Accepts connections and Generates a unique client id as well as sends chat history |
 
 **Check** `client.js` to:
 - Connect to the WebSocket server (`ws://localhost:8081`).

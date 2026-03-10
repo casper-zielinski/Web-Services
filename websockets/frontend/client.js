@@ -1,14 +1,15 @@
-'use strict';
+"use strict";
 
-import { SERVER_PORT } from './server-port.js';
+import { SERVER_PORT } from "./server-port.js";
 
 // Get elements using `document.getElementById` and `document.querySelector`
-const content = document.getElementById('content');
-const input = document.getElementById('input');
-const status = document.getElementById('status');
+const content = document.getElementById("content");
+const input = document.getElementById("input");
+const status = document.getElementById("status");
+const count = document.getElementById("count");
 
 // Set initial status text
-status.textContent = 'Connecting...';
+status.textContent = "Connecting...";
 
 // User-specific data
 let myColor;
@@ -19,28 +20,33 @@ window.WebSocket = window.WebSocket || window.MozWebSocket;
 
 // Check if the browser supports WebSockets
 if (!window.WebSocket) {
-  content.innerHTML = '<p>Sorry, but your browser does not support WebSockets!</p>';
-  input.style.display = 'none';
-  status.style.display = 'none';
-  throw new Error('WebSocket not supported by this browser');
+  content.innerHTML =
+    "<p>Sorry, but your browser does not support WebSockets!</p>";
+  input.style.display = "none";
+  status.style.display = "none";
+  throw new Error("WebSocket not supported by this browser");
 }
 
 // Open WebSocket connection
-const connection = new WebSocket(`ws://127.0.0.1:${SERVER_PORT}`, 'msd-webservice');
+const connection = new WebSocket(
+  `ws://127.0.0.1:${SERVER_PORT}`,
+  "msd-webservice",
+);
 
 // WebSocket 'open' event
 connection.onopen = () => {
-  input.removeAttribute('disabled');
-  input.value = '';
-  input.setAttribute('placeholder', 'Choose name');
-  status.textContent = 'Choose name: ';
+  input.removeAttribute("disabled");
+  input.value = "";
+  input.setAttribute("placeholder", "Choose name");
+  status.textContent = "Choose name: ";
 };
 
 // WebSocket 'error' event
 connection.onerror = (error) => {
   console.error(error);
-  status.textContent = 'ERROR';
-  content.innerHTML = '<p>Sorry, a connection issue occurred, or the server is down.</p>';
+  status.textContent = "ERROR";
+  content.innerHTML =
+    "<p>Sorry, a connection issue occurred, or the server is down.</p>";
 };
 
 // WebSocket 'message' event - Handles incoming messages from the server
@@ -50,27 +56,43 @@ connection.onmessage = (message) => {
     json = JSON.parse(message.data);
     console.log(json);
   } catch (error) {
-    console.error('Invalid data from server:', message);
+    console.error("Invalid data from server:", message);
     return;
   }
 
   switch (json.type) {
-    case 'color':
+    case "color":
       myColor = json.data;
       status.textContent = `${myName}: `;
       status.style.color = myColor;
-      input.setAttribute('placeholder', 'Enter your message');
-      input.removeAttribute('disabled');
+      input.setAttribute("placeholder", "Enter your message");
+      input.removeAttribute("disabled");
       input.focus();
       break;
-    case 'history':
-      json.data.forEach(chatMsg => addMessage(chatMsg.author, chatMsg.text, chatMsg.color, new Date(chatMsg.time)));
+    case "history":
+      json.data.forEach((chatMsg) =>
+        addMessage(
+          chatMsg.author,
+          chatMsg.text,
+          chatMsg.color,
+          new Date(chatMsg.time),
+        ),
+      );
       break;
-    case 'chat-message':
-      input.removeAttribute('disabled');
+    case "chat-message":
+      input.removeAttribute("disabled");
       input.focus();
       const chatMsg = json.data;
-      addMessage(chatMsg.author, chatMsg.text, chatMsg.color, new Date(chatMsg.time));
+      addMessage(
+        chatMsg.author,
+        chatMsg.text,
+        chatMsg.color,
+        new Date(chatMsg.time),
+      );
+      break;
+    case "new-user":
+      console.log("new user");
+      count.textContent = json.data;
       break;
     default:
       console.warn("Unknown message type received:", json);
@@ -78,17 +100,17 @@ connection.onmessage = (message) => {
 };
 
 // Send message when the user presses Enter key
-input.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
     const msg = input.value.trim();
     if (!msg) return;
 
     // Send message as JSON string
-    connection.send(JSON.stringify({ type: 'incoming-message', data: msg }));
+    connection.send(JSON.stringify({ type: "incoming-message", data: msg }));
 
     // Clear and disable input field temporarily
-    input.value = '';
-    input.setAttribute('disabled', 'true');
+    input.value = "";
+    input.setAttribute("disabled", "true");
 
     // First message is the username
     if (!myName) {
@@ -105,8 +127,8 @@ input.addEventListener('keydown', (event) => {
  * @param {Date} timestamp - The message timestamp
  */
 function addMessage(author, msg, color, timestamp) {
-  const selfClass = author === myName ? 'self' : '';
-  const messageElement = document.createElement('p');
+  const selfClass = author === myName ? "self" : "";
+  const messageElement = document.createElement("p");
   messageElement.className = `chat-message ${selfClass}`;
   messageElement.innerHTML = `<span class="chat-name" style="color: ${color};">${author}</span> @ [${formattedTimeStamp(timestamp)}]: ${msg}`;
   content.prepend(messageElement);
@@ -128,6 +150,6 @@ function formattedTimeStamp(date) {
  * @param {string} pad - The padding character (default is '0')
  * @returns {string} - Padded string
  */
-function lpad(num, size = 2, pad = '0') {
+function lpad(num, size = 2, pad = "0") {
   return num.toString().padStart(size, pad);
 }

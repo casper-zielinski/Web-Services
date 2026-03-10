@@ -1,22 +1,24 @@
-'use strict';
+"use strict";
 
 // Import external modules
-const WebSocketServer = require('websocket').server;
-const http = require('http');
-const { htmlEntities, getShuffledColors } = require('./util');
-const { WEBSOCKET_SERVER_PORT } = require('./util/config');
+const WebSocketServer = require("websocket").server;
+const http = require("http");
+const { htmlEntities, getShuffledColors } = require("./util");
+const { WEBSOCKET_SERVER_PORT } = require("./util/config");
+const { client } = require("websocket");
 
 // Define WebSocket origin (used for protocol validation)
-const WEBSOCKET_ORIGIN = 'msd-webservice';
+const WEBSOCKET_ORIGIN = "msd-webservice";
 
 // Optional: Set process title (visible in system monitoring tools like `ps` or `top`)
-process.title = 'node-websocket';
+process.title = "node-websocket";
 
 /**
  * Global variables
  */
 // Store the last 100 messages for chat history
 let history = [];
+let count = 0;
 // Store currently connected clients using a Map for efficient management
 const clients = new Map();
 // Get a shuffled list of colors for user identification
@@ -33,7 +35,9 @@ const httpServer = http.createServer((req, res) => {
 
 // Start HTTP server to listen for WebSocket connections
 httpServer.listen(WEBSOCKET_SERVER_PORT, () => {
-  console.log(`WebSocket Server running at: ws://localhost:${WEBSOCKET_SERVER_PORT}`);
+  console.log(
+    `WebSocket Server running at: ws://localhost:${WEBSOCKET_SERVER_PORT}`,
+  );
 });
 
 /**
@@ -44,7 +48,7 @@ httpServer.listen(WEBSOCKET_SERVER_PORT, () => {
 const wsServer = new WebSocketServer({ httpServer });
 
 // Handle incoming WebSocket connection requests
-wsServer.on('request', (request) => {
+wsServer.on("request", (request) => {
   let clientId, userName, userColor;
   try {
     console.log(`[INFO] Connection request from origin: ${request.origin}`);
@@ -55,26 +59,30 @@ wsServer.on('request', (request) => {
     // Generate a unique client ID based on timestamp and randomness
     clientId = Date.now() + Math.random();
     clients.set(clientId, connection);
-
     console.log(`[INFO] New WebSocket connection established.`);
 
     // Send chat history to the newly connected client
     if (history.length > 0) {
-      connection.sendUTF(JSON.stringify({ type: 'history', data: history }));
+      connection.sendUTF(JSON.stringify({ type: "history", data: history }));
     }
 
+    count = clients.size;
+    const newUserJson = JSON.stringify({ type: "new-user", data: count });
+    clients.forEach((c) => c.sendUTF(newUserJson));
     // Event handler for receiving messages from clients
-    connection.on('message', (messageRAW) => {
+    connection.on("message", (messageRAW) => {
       try {
         // Parse incoming message
         const message = JSON.parse(messageRAW.utf8Data);
 
-        if (message.type === 'incoming-message') {
+        if (message.type === "incoming-message") {
           // Assign a username and color on the first message received from the user
           if (!userName) {
             userName = htmlEntities(message.data);
-            userColor = availableColors.pop() || 'black'; // Assign color or default to black
-            connection.sendUTF(JSON.stringify({ type: 'color', data: userColor }));
+            userColor = availableColors.pop() || "black"; // Assign color or default to black
+            connection.sendUTF(
+              JSON.stringify({ type: "color", data: userColor }),
+            );
 
             console.log(`[INFO] User ${userName} assigned color ${userColor}`);
           } else {
@@ -90,29 +98,36 @@ wsServer.on('request', (request) => {
             if (history.length > 100) history.shift(); // Keep only the last 100 messages
 
             // Broadcast the message to all connected clients
-            const json = JSON.stringify({ type: 'chat-message', data: chatMessage });
-            clients.forEach(client => client.sendUTF(json));
-
+            const json = JSON.stringify({
+              type: "chat-message",
+              data: chatMessage,
+            });
+            clients.forEach((client) => client.sendUTF(json));
             console.log(`[MESSAGE] ${userName}: ${message.data}`);
           }
         } else {
           // Send an error message for invalid message types
-          sendError(connection, 'Only messages of type "incoming-message" are allowed.');
+          sendError(
+            connection,
+            'Only messages of type "incoming-message" are allowed.',
+          );
         }
       } catch (error) {
         // Handle invalid JSON format
-        sendError(connection, 'Invalid data format received.');
+        sendError(connection, "Invalid data format received.");
         console.error(`[ERROR] Invalid message data:`, messageRAW.utf8Data);
       }
     });
 
     // Event handler for client disconnection
-    connection.on('close', () => {
+    connection.on("close", () => {
       if (userName && userColor) {
         console.log(`[INFO] User ${userName} disconnected.`);
         availableColors.push(userColor); // Return color to the pool
       }
       clients.delete(clientId);
+      const updatedJson = JSON.stringify({ type: "new-user", data: clients.size });
+      clients.forEach((c) => c.sendUTF(updatedJson));
     });
   } catch (error) {
     // Handle unexpected errors gracefully
@@ -127,6 +142,5 @@ wsServer.on('request', (request) => {
  * @param {String} message - Error message to be sent
  */
 const sendError = (connection, message) => {
-  connection.sendUTF(JSON.stringify({ type: 'error', data: message }));
+  connection.sendUTF(JSON.stringify({ type: "error", data: message }));
 };
-
