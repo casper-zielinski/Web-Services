@@ -1,0 +1,28 @@
+{
+  "name": "websocket-example-frontend",
+  "version": "1.1.0",
+  "description": "WebSocket frontend client ui project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    }
+  ],
+  "keywords": [
+    "websocket",
+    "node"
+  ],
+  "license": "GPL-3.0",
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "websocket": "^1.0.35",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

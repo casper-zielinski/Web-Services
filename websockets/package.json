@@ -1,0 +1,37 @@
+{
+  "name": "websocket-example",
+  "version": "1.1.1",
+  "description": "A WebSocket-based example project with frontend and backend integration.",
+  "private": true,
+  "license": "GPL-3.0",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "install-all": "npm install --workspaces",
+    "start-backend": "npm start --workspace=backend",
+    "start-frontend": "npm start --workspace=frontend",
+    "start-all": "concurrently \"npm start --workspace=backend\" \"npm start --workspace=frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  },
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    },
+    {
+      "name": "Harald Schwab",
+      "email": "harald.schwab2@fh-joanneum.at"
+    }
+  ],
+  "keywords": [
+    "websocket",
+    "node",
+    "frontend",
+    "backend",
+    "real-time"
+  ]
+}

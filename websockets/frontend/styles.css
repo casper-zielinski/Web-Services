@@ -1,0 +1,42 @@
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Chat messages container */
+#content {
+    height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f8f9fa;
+    padding: 10px;
+}
+
+/* Input field styling */
+#input {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+}
+
+/* Chat message styling */
+.chat-message {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    background: #e9ecef;
+}
+
+.chat-message.self {
+    text-align: right;
+    background: #d4edda;
+}
+
+/* Username styling */
+.chat-name {
+    font-weight: bold;
+    color: #007bff;
+    display: block;
+}

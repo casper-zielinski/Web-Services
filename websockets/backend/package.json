@@ -1,0 +1,31 @@
+{
+  "name": "websocket-example-backend",
+  "version": "1.1.0",
+  "description": "WebSocket backend service server project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    },
+    {
+      "name": "Harald Schwab",
+      "email": "harald.schwab2@fh-joanneum.at"
+    }
+  ],
+  "keywords": [
+    "websocket",
+    "node"
+  ],
+  "license": "GPL-3.0",
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "websocket": "^1.0.35"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
