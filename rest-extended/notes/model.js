@@ -3,11 +3,28 @@
 const { db } = require("./model.sqlite");
 
 // get all notes
-function getAll() {
+function getAll(filter) {
   return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM notes ORDER BY id ASC";
+    let filterQuery = "";
+    let filterQueryArray = [];
+    if (filter.title && filter.description) {
+      filterQuery += "WHERE title = ? AND description = ?";
+      filterQueryArray = [filter.title, filter.description];
+    } else if (filter.title) {
+      filterQuery += "WHERE title = ?";
+      filterQueryArray = [filter.title];
+    } else if (filter.description) {
+      filterQuery += "WHERE description = ?";
+      filterQueryArray = [filter.description];
+    }
+
+    console.log("filter: ", filter);
+    console.log("filterQuery: ", filterQuery);
+    console.log("filterQueryArray: ", filterQueryArray);
+
+    const query = `SELECT * FROM notes ${filterQuery} ORDER BY id ASC`;
     const stmt = db.prepare(query);
-    stmt.all([], (err, result) => {
+    stmt.all(filterQueryArray, (err, result) => {
       if (err) {
         return reject(err);
       }
@@ -87,9 +104,9 @@ function remove(id) {
 }
 
 module.exports = {
-  get(id) {
+  get(id, filter) {
     if (!id) {
-      return getAll();
+      return getAll(filter);
     } else {
       return getOne(id);
     }

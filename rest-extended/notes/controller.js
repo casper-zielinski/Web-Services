@@ -2,9 +2,8 @@
 const model = require("./model");
 
 function listAction(req, res) {
-  console.log("list overview");
   model
-    .get()
+    .get(null, req.query)
     .then((notes) => {
       console.log(notes);
       res.json(notes);
