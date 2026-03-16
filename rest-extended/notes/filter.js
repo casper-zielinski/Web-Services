@@ -12,12 +12,16 @@ const getFilterQuery = (filter) => {
     filterQueryArray.push(filter.description);
   }
   if (filter.limit) {
+    let limit = Number(filter.limit);
+    if (limit > 100) limit = 100;
     pagginationTracker.push(" LIMIT ? ");
-    filterQueryArray.push(filter.limit);
+    filterQueryArray.push(limit);
   }
   if (filter.offset) {
+    let offset = Number(filter.offset);
+    if (filter.offset > 100) offset = 100;
     pagginationTracker.push(" OFFSET ? ");
-    filterQueryArray.push(filter.offset);
+    filterQueryArray.push(offset);
   }
 
   const filterQuery = () => {
