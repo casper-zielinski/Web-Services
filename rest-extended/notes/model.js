@@ -1,26 +1,12 @@
 "use strict";
 
 const { db } = require("./model.sqlite");
+const { getFilterQuery } = require("./filter.js");
 
 // get all notes
 function getAll(filter) {
   return new Promise((resolve, reject) => {
-    let filterQuery = "";
-    let filterQueryArray = [];
-    if (filter.title && filter.description) {
-      filterQuery += "WHERE title = ? AND description = ?";
-      filterQueryArray = [filter.title, filter.description];
-    } else if (filter.title) {
-      filterQuery += "WHERE title = ?";
-      filterQueryArray = [filter.title];
-    } else if (filter.description) {
-      filterQuery += "WHERE description = ?";
-      filterQueryArray = [filter.description];
-    }
-
-    console.log("filter: ", filter);
-    console.log("filterQuery: ", filterQuery);
-    console.log("filterQueryArray: ", filterQueryArray);
+    const { filterQueryArray, filterQuery } = getFilterQuery(filter);
 
     const query = `SELECT * FROM notes ${filterQuery} ORDER BY id ASC`;
     const stmt = db.prepare(query);
