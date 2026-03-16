@@ -6,9 +6,14 @@ const { getFilterQuery } = require("./filter.js");
 // get all notes
 function getAll(filter) {
   return new Promise((resolve, reject) => {
-    const { filterQueryArray, filterQuery } = getFilterQuery(filter);
+    const {
+      filterQueryArray,
+      filterQuery,
+      pagginationArray,
+      pagginationQuery,
+    } = getFilterQuery(filter);
 
-    const query = `SELECT * FROM notes ${filterQuery} ORDER BY id ASC`;
+    const query = `SELECT * FROM notes ${filterQuery} ORDER BY id ASC ${pagginationQuery}`;
     const stmt = db.prepare(query);
     stmt.all(filterQueryArray, (err, result) => {
       if (err) {

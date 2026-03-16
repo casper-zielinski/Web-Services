@@ -1,6 +1,7 @@
 const getFilterQuery = (filter) => {
   let filterQueryTracker = [];
   let filterQueryArray = [];
+  let pagginationTracker = [];
 
   if (filter.title) {
     filterQueryTracker.push("title = ? ");
@@ -11,24 +12,38 @@ const getFilterQuery = (filter) => {
     filterQueryArray.push(filter.description);
   }
   if (filter.limit) {
-    filterQueryTracker.push(" limit = ? ");
+    pagginationTracker.push(" LIMIT ? ");
     filterQueryArray.push(filter.limit);
+  }
+  if (filter.offset) {
+    pagginationTracker.push(" OFFSET ? ");
+    filterQueryArray.push(filter.offset);
   }
 
   const filterQuery = () => {
     if (filterQueryTracker.length === 0) {
       return "";
     } else
-      return "WHERE " + (filterQueryTracker.length > 1
-        ? filterQueryTracker.join("AND ")
-        : filterQueryTracker[0]);
+      return (
+        "WHERE " +
+        (filterQueryTracker.length > 1
+          ? filterQueryTracker.join("AND ")
+          : filterQueryTracker[0])
+      );
   };
 
-  const filterQueryString = filterQuery();
-  console.log(filterQueryString);
+  const pagginationQuery = () => {
+    if (pagginationTracker.length === 0) {
+      return "";
+    } else {
+      return pagginationTracker.join("");
+    }
+  };
+
   return {
     filterQueryArray: filterQueryArray,
-    filterQuery: filterQueryString,
+    filterQuery: filterQuery(),
+    pagginationQuery: pagginationQuery(),
   };
 };
 
