@@ -2,6 +2,7 @@ const getFilterQuery = (filter) => {
   let filterQueryTracker = [];
   let filterQueryArray = [];
   let pagginationTracker = [];
+  let pagginationValues = {};
 
   if (filter.title) {
     filterQueryTracker.push("title = ? ");
@@ -15,12 +16,14 @@ const getFilterQuery = (filter) => {
     let limit = Number(filter.limit);
     if (limit > 100) limit = 100;
     pagginationTracker.push(" LIMIT ? ");
+    pagginationValues.limit = limit;
     filterQueryArray.push(limit);
   }
   if (filter.offset) {
     let offset = Number(filter.offset);
     if (filter.offset > 100) offset = 100;
     pagginationTracker.push(" OFFSET ? ");
+    pagginationValues.offset = offset;
     filterQueryArray.push(offset);
   }
 
@@ -48,6 +51,7 @@ const getFilterQuery = (filter) => {
     filterQueryArray: filterQueryArray,
     filterQuery: filterQuery(),
     pagginationQuery: pagginationQuery(),
+    pagginationValues: pagginationValues,
   };
 };
 

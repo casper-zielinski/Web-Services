@@ -9,8 +9,8 @@ function getAll(filter) {
     const {
       filterQueryArray,
       filterQuery,
-      pagginationArray,
       pagginationQuery,
+      pagginationValues,
     } = getFilterQuery(filter);
 
     const query = `SELECT * FROM notes ${filterQuery} ORDER BY id ASC ${pagginationQuery}`;
@@ -19,7 +19,7 @@ function getAll(filter) {
       if (err) {
         return reject(err);
       }
-      resolve(result);
+      resolve({ data: result, pagginationValues: pagginationValues });
     });
   });
 }
