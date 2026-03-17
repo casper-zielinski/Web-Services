@@ -1,11 +1,19 @@
 "use strict";
 const model = require("./model");
+const cache = new Map();
 
 function listAction(req, res) {
+  const cacheKey = JSON.stringify(req.query);
+  if (cache.get(cacheKey)) {
+    console.log("cached");
+    return res.json(cache.get(cacheKey));
+  }
+
   model
     .get(null, req.query)
     .then((notes) => {
-      console.log(notes);
+      cache.set(cacheKey, notes);
+      console.log("new response");
       res.json(notes);
     })
     .catch((err) => handleError(err, req, res));
@@ -63,7 +71,6 @@ function updateAction(req, res) {
 }
 
 function deleteAction(req, res) {
-  console.log("delete");
   const id = req.params.id;
   model
     .delete(id)
@@ -79,7 +86,15 @@ function deleteAction(req, res) {
 }
 
 function handleError(err, req, res) {
-  if (typeof err === "object" && err.message) {
+  if (typeof err === "object" && err.code) {
+    console.error("ERROR: \n", err.code);
+    const error = err.code;
+    if (error == "SQLITE_MISMATCH") {
+      return res
+        .status(400)
+        .json({ error: error, message: "Converting type failed" });
+    }
+  } else if (typeof err === "object" && err.message) {
     err = { error: err.message };
   } else if (typeof err === "string") {
     err = { error: err };

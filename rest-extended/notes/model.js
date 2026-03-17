@@ -13,13 +13,38 @@ function getAll(filter) {
       pagginationValues,
     } = getFilterQuery(filter);
 
+    const countQuery = `SELECT COUNT(*) as total FROM notes ${filterQuery} ORDER BY id ASC`;
+    const stmtCount = db.prepare(countQuery);
+    let total = 0;
+
+    stmtCount.all(
+      filterQueryArray.slice(
+        0,
+        filterQueryArray.length - 1 - pagginationQuery.length,
+      ),
+      (err, result) => {
+        if (err) {
+          total = undefined;
+        }
+        total = result;
+      },
+    );
+
     const query = `SELECT * FROM notes ${filterQuery} ORDER BY id ASC ${pagginationQuery}`;
     const stmt = db.prepare(query);
+
     stmt.all(filterQueryArray, (err, result) => {
       if (err) {
         return reject(err);
       }
-      resolve({ data: result, pagginationValues: pagginationValues });
+
+      resolve({
+        data: result,
+        pagginationValues: {
+          ...pagginationValues,
+          total: total[0].total,
+        },
+      });
     });
   });
 }
