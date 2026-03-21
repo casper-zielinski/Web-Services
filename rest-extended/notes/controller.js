@@ -1,30 +1,31 @@
 "use strict";
+const { sendFromCache, appendToCache, clearCache } = require("./cache");
 const model = require("./model");
 const cache = new Map();
 
 function listAction(req, res) {
   const cacheKey = JSON.stringify(req.query);
-  if (cache.get(cacheKey)) {
-    console.log("cached");
-    return res.json(cache.get(cacheKey));
-  }
+  sendFromCache(cacheKey, res);
 
   model
     .get(null, req.query)
     .then((notes) => {
-      cache.set(cacheKey, notes);
-      console.log("new response");
+      appendToCache(cacheKey, notes);
+      res.set("Cache-Control", "no-store");
       res.json(notes);
     })
     .catch((err) => handleError(err, req, res));
 }
 
 function detailAction(req, res) {
-  console.log("detail:", req.params.id);
+  const cacheKey = JSON.stringify(req.params.id);
+  sendFromCache(cacheKey, res);
+
   model
     .get(req.params.id)
     .then((note) => {
       if (note) {
+        appendToCache(cacheKey, note);
         res.json(note);
       } else {
         res
@@ -36,7 +37,7 @@ function detailAction(req, res) {
 }
 
 function createAction(req, res) {
-  console.log("create");
+  clearCache();
   const newNote = {
     title: req.body.title,
     description: req.body.description,
@@ -51,7 +52,7 @@ function createAction(req, res) {
 }
 
 function updateAction(req, res) {
-  console.log("update");
+  clearCache();
   const note = {
     id: req.params.id,
     title: req.body.title,
@@ -71,6 +72,7 @@ function updateAction(req, res) {
 }
 
 function deleteAction(req, res) {
+  clearCache();
   const id = req.params.id;
   model
     .delete(id)

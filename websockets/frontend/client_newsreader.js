@@ -13,20 +13,21 @@ const connection = new WebSocket(
   "msd-webservice",
 );
 
-// connection.addEventListener("open", () => {
-//   alert("Welcome to the news page");
-// });
+connection.onopen = (ev) => {
+  console.log("Opened Web Socket Connection", ev);
+};
 
-// connection.addEventListener("error", () => {
-//   alert("A Error ocured");
-// });
+const like = () => {
+  console.log("Like");
+};
 
 connection.addEventListener("message", (ev) => {
+  console.log("fefever");
   const response = JSON.parse(ev.data);
   const data = response.data;
   articles.push(data);
   articlesDiv.innerHTML = articles.map(
     (val, index) =>
-      `<article class="p-2 m-2 d-flex flex-column" id=${index}><h3 class="m-2 p-2">${val.title}</h3><span>${val.topic}</span><p class="m-2 p-2 border-2 border-black">${val.longtext}</p></article>`,
+      `<article class="p-2 border border-black m-2 d-flex flex-column" id=${index}><h3 class="m-2 p-2">${val.title}</h3><span>${val.topic}</span><p class="m-2 p-2">${val.longtext}</p><button  onclick="${like}">👍</button></article>`,
   );
 });
