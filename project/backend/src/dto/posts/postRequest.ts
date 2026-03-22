@@ -1,4 +1,4 @@
-import type { NewPost } from "../db/schema.js";
+import type { NewPost } from "../../db/schema.js";
 
 export interface PostRequest {
   new_post: NewPost;

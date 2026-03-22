@@ -1,4 +1,4 @@
-import type { InferSelectModel } from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const posts = pgTable("posts", {
@@ -10,4 +10,4 @@ export const posts = pgTable("posts", {
 
  
 export type Post = InferSelectModel<typeof posts>;
-export type NewPost = InferSelectModel<typeof posts>;
+export type NewPost = InferInsertModel<typeof posts>;

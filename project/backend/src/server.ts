@@ -1,5 +1,5 @@
 import express from "express";
-import postController from "./routes/postController.js";
+import postController from "./routes/postsController.js";
 
 const app = express();
 const apiUrl = `/api/v1`;
