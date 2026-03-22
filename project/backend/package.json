@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "concurrently \"tsc -w\" \"nodemon dist/server.js\"",
     "start": "npx tsc --build && node dist/server.js",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "db:push": "npx drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "keywords": [],
   "author": "",

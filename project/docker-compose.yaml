@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    container_name: post-feed-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: post_feed
+    ports:
+      - "5432:5432"
+    volumes:
+      - post_feed_data:/var/lib/postgresql/data
+
+volumes:
+  post_feed_data:

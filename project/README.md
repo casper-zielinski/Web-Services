@@ -49,10 +49,8 @@ src/
     menuRoutes.ts        ← HTTP Endpoints, nur Request/Response
   services/
     menuService.ts       ← Business Logic, ruft Repository auf
-  repositories/
-    menuRepository.ts    ← Datenbankzugriff, nur SQL Queries
-  models/
-    menuItem.ts          ← Typ/Interface für die DB-Entität
+  db/
+    schema.ts            ← Typ/Interface für die DB-Entität
   dto/
     menuItemRequest.ts   ← was reinkommt (POST Body)
     menuItemResponse.ts  ← was rausgeht (API Response)

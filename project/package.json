@@ -1,0 +1,25 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "**Pagination** wird benutzt, um nicht alle Daten zurückugeben und nur eine bestimmte menge pro seite, damit man nicht wenn man eine app betritt ewig lange warten muss (Ladezeit zu verringern), wenn die app schon tausende von daten hat.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "docker compose up -d && concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "build": "concurrently \"npm run build --prefix backend\" \"npm run build --prefix frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "concurrently": "^9.2.1",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.21.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.20.0"
+  }
+}
