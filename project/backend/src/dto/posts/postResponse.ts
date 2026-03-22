@@ -1,5 +1,7 @@
-import type { Post } from "../../db/schema.js";
+import type { NewPost, Post } from "../../db/schema.js";
 
 export interface PostResponse {
-  posts: Post;
+  insertedPost: Post;
+  receivedPost: NewPost;
+  message: string;
 }

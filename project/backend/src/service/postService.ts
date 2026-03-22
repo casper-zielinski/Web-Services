@@ -1,6 +1,6 @@
 import { gt } from "drizzle-orm";
 import { db } from "../db.js";
-import { posts } from "../db/schema.js";
+import { posts, type NewPost } from "../db/schema.js";
 import type { GetRequest } from "../dto/posts/getRequest.js";
 
 export async function getPosts(getRequest: GetRequest) {
@@ -9,4 +9,8 @@ export async function getPosts(getRequest: GetRequest) {
     .from(posts)
     .limit(getRequest.limit)
     .where(gt(posts.id, getRequest.cursor));
+}
+
+export async function createPost(newPost: NewPost) {
+  return (await db.insert(posts).values(newPost).returning()).at(0);
 }

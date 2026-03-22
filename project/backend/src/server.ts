@@ -4,6 +4,8 @@ import postController from "./routes/postsController.js";
 const app = express();
 const apiUrl = `/api/v1`;
 
+app.use(express.json());
+
 app.use(apiUrl, postController);
 
 const PORT = 3000;
