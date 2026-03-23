@@ -3,13 +3,14 @@ import { db } from "../db.js";
 import { posts, type NewPost } from "../db/schema.js";
 import type { GetRequest } from "../dto/posts/getRequest.js";
 
-export async function getPosts(getRequest: GetRequest) {
+export async function getPosts({ cursor, limit }: GetRequest) {
   try {
     return await db
       .select()
       .from(posts)
-      .limit(getRequest.limit)
-      .where(gt(posts.id, getRequest.cursor));
+      .orderBy(posts.id)
+      .limit(limit)
+      .where(gt(posts.id, cursor));
   } catch (error) {
     throw new Error("Error getting posts");
   }

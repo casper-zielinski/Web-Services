@@ -12,7 +12,7 @@ router.get(apiUrl, async (req, res, next) => {
   try {
     const getRequest: GetRequest = {
       cursor: parseInt(req.query.cursor?.toString() || "") || 0,
-      limit: parseInt(req.query.cursor?.toString() || "") || 10,
+      limit: parseInt(req.query.limit?.toString() || "") || 10,
     };
     const posts = await getPosts(getRequest);
     const getResponse: GetResponse = {
