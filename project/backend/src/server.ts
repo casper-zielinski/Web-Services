@@ -1,11 +1,13 @@
 import express from "express";
 import postController from "./routes/postsController.js";
 import { globalErrorHandler } from "./middleware/errorHandler.js";
+import cors from "cors";
 
 const app = express();
 const apiUrl = `/api/v1`;
 
 app.use(express.json());
+app.use(cors());
 
 app.use(apiUrl, postController);
 
