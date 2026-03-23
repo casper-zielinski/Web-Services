@@ -21,6 +21,7 @@ export function usePostsApi({ cursor, limit }: UsePostApiProps) {
     const controller = new AbortController();
 
     async function getPosts() {
+      setLoading(true);
       const getRequest = { cursor, limit } as GetRequest;
       try {
         const result = await fetchPosts(getRequest, controller.signal);
