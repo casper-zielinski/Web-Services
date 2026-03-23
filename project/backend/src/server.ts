@@ -1,5 +1,6 @@
 import express from "express";
 import postController from "./routes/postsController.js";
+import { globalErrorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 const apiUrl = `/api/v1`;
@@ -21,3 +22,5 @@ app.get(`${apiUrl}/health`, (_, res) => {
     return res.json({ status: "ERROR", error: error });
   }
 });
+
+app.use(globalErrorHandler)
