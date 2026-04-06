@@ -1,3 +1,4 @@
+name: web-services-project
 services:
   db:
     image: postgres:16

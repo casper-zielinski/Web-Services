@@ -59,7 +59,7 @@ Repeat this cycle for each OPEN-XXX section.
 
 ## 🔟 The 10 Guiding Questions (with Checkpoints)
 
-### 1. [OPEN-001 – Why OpenAPI](open-001-why.md)?
+### 1. [✅-001 – Why OpenAPI](open-001-why.md)?
 
 **What is the purpose of OpenAPI / Swagger, and what problems does it solve?**
 
