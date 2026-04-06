@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  title: Simple To-do API
+  description: A basic example of an OpenAPI 3.0 specification for managing to-do items.
+  version: 1.0.0
+
+servers:
+  - url: https://example.com/api
+    description: Production server
+  - url: http://localhost:3000/api
+    description: Local development server
+
+tags:
+  - name: To-dos
+    description: Operations for managing to-do items
+
+paths:
+  /todos:
+    get:
+      tags:
+        - To-dos
+      summary: Get all to-do items
+      description: Returns all currently stored to-do items.
+      responses:
+        '200':
+          description: A list of to-do items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+              examples:
+                default:
+                  summary: Example to-do list
+                  value:
+                    - id: "abc123"
+                      title: "Buy groceries"
+                      completed: false
+                    - id: "def456"
+                      title: "Prepare lecture slides"
+                      completed: true
+
+    post:
+      tags:
+        - To-dos
+      summary: Create a new to-do item
+      description: Creates a new to-do item and returns the created object.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoInput'
+            examples:
+              default:
+                summary: Example request body
+                value:
+                  title: "Buy groceries"
+                  completed: false
+      responses:
+        '201':
+          description: Successfully created to-do item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+              examples:
+                default:
+                  summary: Example created to-do
+                  value:
+                    id: "abc123"
+                    title: "Buy groceries"
+                    completed: false
+
+  /todos/{id}:
+    parameters:
+      - $ref: '#/components/parameters/TodoId'
+
+    get:
+      tags:
+        - To-dos
+      summary: Get a single to-do item by ID
+      description: Returns one to-do item for the given ID.
+      responses:
+        '200':
+          description: A single to-do item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+              examples:
+                default:
+                  summary: Example to-do item
+                  value:
+                    id: "abc123"
+                    title: "Buy groceries"
+                    completed: false
+        '404':
+          description: To-do item not found
+
+    put:
+      tags:
+        - To-dos
+      summary: Update a to-do item by ID
+      description: Updates an existing to-do item and returns the updated object.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoUpdate'
+            examples:
+              default:
+                summary: Example update request
+                value:
+                  title: "Buy groceries and fruit"
+                  completed: true
+      responses:
+        '200':
+          description: Successfully updated to-do item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+              examples:
+                default:
+                  summary: Example updated to-do
+                  value:
+                    id: "abc123"
+                    title: "Buy groceries and fruit"
+                    completed: true
+        '404':
+          description: To-do item not found
+
+    delete:
+      tags:
+        - To-dos
+      summary: Delete a to-do item by ID
+      description: Deletes the to-do item with the given ID.
+      responses:
+        '204':
+          description: Successfully deleted
+        '404':
+          description: To-do item not found
+
+components:
+  parameters:
+    TodoId:
+      in: path
+      name: id
+      required: true
+      description: Unique identifier of the to-do item
+      schema:
+        type: string
+        example: "abc123"
+
+  schemas:
+    Todo:
+      type: object
+      required:
+        - id
+        - title
+        - completed
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the to-do item
+          example: "abc123"
+        title:
+          type: string
+          description: Short title of the to-do item
+          example: "Buy groceries"
+        completed:
+          type: boolean
+          description: Indicates whether the to-do item is completed
+          example: false
+
+    TodoInput:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: Short title of the to-do item
+          example: "Buy groceries"
+        completed:
+          type: boolean
+          description: Indicates whether the to-do item is already completed
+          example: false
+
+    TodoUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Updated title of the to-do item
+          example: "Buy groceries and fruit"
+        completed:
+          type: boolean
+          description: Updated completion status
+          example: true
