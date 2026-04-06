@@ -16,7 +16,7 @@ export async function globalErrorHandler(
   }
 
   res.status(500).json({
-    error: err,
+    error: err ?? "Unknown Error",
     message: "Internal Server Error",
   });
 }
