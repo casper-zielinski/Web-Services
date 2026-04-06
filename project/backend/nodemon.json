@@ -1,0 +1,4 @@
+{
+  "watch": ["dist", "src/swagger"],
+  "ext": "js,yaml"
+}
