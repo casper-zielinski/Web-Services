@@ -1,3 +1,8 @@
+openapi: "3.0.0"
+info:
+  title: Post API
+  version: "1.0.0"
+
 components:
   schemas:
     Post:
@@ -23,7 +28,7 @@ components:
         posts:
           type: array
           items:
-            $ref: '#/components/schemas/Post'
+            $ref: '#/components/schemas/Post'        
         next_cursor:
           type: integer
           nullable: true
@@ -70,6 +75,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetResponse'
+              examples:
+                default:
+                  summary: Paginated list with 8 posts
+                  value:
+                    posts:
+                      - id: 1
+                        text: "OpenAPI is the best"
+                        time_stamp: "2026-04-06T12:00:00.000Z"
+                        likes: 67
+                      - id: 2
+                        text: "Swagger is goated"
+                        time_stamp: "2026-03-06T12:00:00.000Z"
+                        likes: 41
+                      - id: 3
+                        text: "REST APIs make the world go round"
+                        time_stamp: "2026-03-15T09:30:00.000Z"
+                        likes: 23
+                      - id: 4
+                        text: "TypeScript saves lives"
+                        time_stamp: "2026-03-20T14:00:00.000Z"
+                        likes: 88
+                      - id: 5
+                        text: "Express is still undefeated"
+                        time_stamp: "2026-03-22T11:15:00.000Z"
+                        likes: 55
+                      - id: 6
+                        text: "Drizzle ORM is pretty slick"
+                        time_stamp: "2026-03-25T08:45:00.000Z"
+                        likes: 30
+                      - id: 7
+                        text: "Works on my machine? Use Docker."
+                        time_stamp: "2026-03-28T16:20:00.000Z"
+                        likes: 102
+                      - id: 8
+                        text: "Pagination is underrated"
+                        time_stamp: "2026-04-01T10:00:00.000Z"
+                        likes: 14
+                      - id: 9
+                        text: "Have you tried turning it off and on again?"
+                        time_stamp: "2026-04-03T13:00:00.000Z"
+                        likes: 77
+                      - id: 10
+                        text: "Ship it and pray"
+                        time_stamp: "2026-04-05T18:30:00.000Z"
+                        likes: 99
+                    next_cursor: 10
         500:
           description: Internal server error
 
