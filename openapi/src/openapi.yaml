@@ -98,6 +98,8 @@ paths:
                     completed: false
         '404':
           description: To-do item not found
+        '500':
+          description: Internal Server Error
 
     put:
       tags:
