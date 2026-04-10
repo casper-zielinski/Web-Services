@@ -154,9 +154,9 @@ paths:
       summary: Get all issue items
       responses:
         '200': 
-          description: Successfully fount Issues
+          description: Successfully found Issues
           content:
-           application/json:
+            application/json:
               schema:
                 type: array
                 items:

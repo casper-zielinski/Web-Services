@@ -32,3 +32,7 @@ Adding a new tag section, with corresponding data such as parameters and compone
 # Creating own Endpoint
 
 The Endpoint `/issues` is a new type of endpoint for a different type of tag, it returns all Issue items. It does not except any type of input, as it is a GET Request. It returns a Issue item, defined in the components/schema section. If a error occurs, a 500 Internal Server Error Status Code is sent. It does not match the current server implementation.
+
+# Creating / Understanding Schemas
+
+The Schema represents a Issue Item that is being returned on a get request (getting all issues). The id as well as the title is required, these fields should have a certain value, where as the completed and the description do not need one. Not every issue needs additional description (although this can be argued over), as well as a completed value (also this can be argued over). It is used in the GET method of `/issues` as a item of the response array, so a array of these issues. It is better to use and define Schemas and then to use them in the path section, to avoid code repetition and to have a better structure of the spec file, Objects can get very large and having them defined in the path can overload the section with information that can be defined elsewhere. The path section should include it as a refrence, not directly. Also, if the Issue Schema changes, instead of changing all inline defined Schemas, one has to only change the Schema and the docs are working.
