@@ -28,3 +28,7 @@ Most of the information in the OpenAPI file you see you can also see in the Swag
 Adding a new tag section, with corresponding data such as parameters and components used in it shows another section with defined paths. These paths are categorized to each tag.
 
 ![Adding tag to OpenAPI](./newTagToOpenAPI.png)
+
+# Creating own Endpoint
+
+The Endpoint `/issues` is a new type of endpoint for a different type of tag, it returns all Issue items. It does not except any type of input, as it is a GET Request. It returns a Issue item, defined in the components/schema section. If a error occurs, a 500 Internal Server Error Status Code is sent. It does not match the current server implementation.

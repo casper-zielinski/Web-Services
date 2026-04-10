@@ -14,7 +14,7 @@ tags:
   - name: To-dos
     description: Operations for managing to-do items
   - name: Issues
-    description: Issues i have
+    description: Operations for managing issue items
 
 paths:
   /todos:
@@ -151,7 +151,7 @@ paths:
     get:
       tags:
         - Issues
-      summary: getting Issues
+      summary: Get all issue items
       responses:
         '200': 
           description: Successfully fount Issues
@@ -173,7 +173,9 @@ paths:
                       title: "Prepare lecture slides"
                       completed: true
                       description: "Preparing all lecture slides for the weekend"
-             
+        '500':
+          description: Internal server error
+            
 
 components:
   parameters:
