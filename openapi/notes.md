@@ -10,3 +10,21 @@ frontend developers, when everyone has a different design idea and no desing to 
 It also improves the quality of the API when developers use the OpenAPI Design they decided on, every endpoint is similar/consistent to another, creating a better DX for external users. It also enables a fast and easy way to test api's not only manualy but also generate test's and even SDK's for other languages.
 
 In this project, OpenAPI is used to document all the todo API Endpoints and with Swagger UI, having a visible Documentation on how the API's work. It also comes with a built in testing environment, being able to not only test the get request but also all the other methodes and set parameters and querys easily
+
+# Structure of an OpenAPI Specification
+
+The OpenAPI spec is structured in many sections, such as info, servers, paths, components etc. The info section is like the title or the header of your api documentation, important for meta data but also for human readable docs. 
+
+The server section includes all the servers that run the api, so the URLs it is hosted on and avaible at as well as a description, so if it is a prod,dev,testing server. 
+
+The most important section is the paths section, containing all the details about the api endpoints and their info, like the URL path, the parameters, the request body, response etc, often defined in components. 
+
+Components section is a libary of resuable schemas,responses,parameters etc. A example would be the /todos endpoint, using a Todo schema array as it response and using it again in the /todo/{id} path, this time not in a array. 
+
+Most of the information in the OpenAPI file you see you can also see in the SwaggerUI, like the paths, schemas, info etc.
+
+## Bonus - How a tag section affects SwaggerUI
+
+Adding a new tag section, with corresponding data such as parameters and components used in it shows another section with defined paths. These paths are categorized to each tag.
+
+![Adding tag to OpenAPI](./newTagToOpenAPI.png)

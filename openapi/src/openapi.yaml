@@ -13,6 +13,8 @@ servers:
 tags:
   - name: To-dos
     description: Operations for managing to-do items
+  - name: Issues
+    description: Issues i have
 
 paths:
   /todos:
@@ -145,6 +147,33 @@ paths:
           description: Successfully deleted
         '404':
           description: To-do item not found
+  /issues:
+    get:
+      tags:
+        - Issues
+      summary: getting Issues
+      responses:
+        '200': 
+          description: Successfully fount Issues
+          content:
+           application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+              examples:
+                default:
+                  summary: Example Issue list
+                  value:
+                    - id: "abc123"
+                      title: "Buy groceries"
+                      completed: false
+                      description: "Buying groceries is hard man"
+                    - id: "def456"
+                      title: "Prepare lecture slides"
+                      completed: true
+                      description: "Preparing all lecture slides for the weekend"
+             
 
 components:
   parameters:
@@ -158,6 +187,30 @@ components:
         example: "abc123"
 
   schemas:
+    Issue:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the Issue item
+          example: "abc123"
+        title:
+          type: string
+          description: Short title of the Issue item
+          example: "Buy groceries"
+        completed:
+          type: boolean
+          description: Indicates whether the Issue item is completed
+          example: false
+          default: false
+        description:
+          type: string
+          description: a description to the Issue 
+          example: "Buying groceries in the morning is hard because i do not like waking up in the morning"
+
     Todo:
       type: object
       required:
