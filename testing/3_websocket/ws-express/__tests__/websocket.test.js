@@ -14,6 +14,12 @@ describe('WebSocket API', () => {
         server.close(done);
     });
 
+    test('HTTP server should respond to GET request', async () => {
+        const response = await request(app).get('/');
+        expect(response.status).toBe(200);
+        expect(response.text).toBe('WebSocket server is running');
+    });
+
     test('WebSocket should send and receive messages', (done) => {
         ws = new WebSocket('ws://localhost:8080');
 

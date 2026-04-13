@@ -28,4 +28,24 @@ describe('WebSocket Server', () => {
             done();
         });
     });
+
+    test('Client kann mehrere Nachrichten senden und empfangen', (done) => {
+        client = new WebSocket('ws://localhost:8080');
+
+        const messages = ['First Message', 'Second Message', 'Third Message'];
+        const received = [];
+
+        client.on('open', () => {
+            messages.forEach(msg => client.send(msg));
+        });
+
+        client.on('message', (message) => {
+            received.push(message.toString());
+            if (received.length === messages.length) {
+                expect(received).toEqual(messages.map(msg => `Echo: ${msg}`));
+                client.close();
+                done();
+            }
+        });
+    });
 });
