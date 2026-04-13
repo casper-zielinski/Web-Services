@@ -1,5 +1,5 @@
 const { asyncResponse, condition, Point, throwsError } = require("./index.js");
-const { sum } = require("./sum");
+const { sum } = require("./sum.js");
 
 /** simple example test */
 test("my first test with jest", () => {
@@ -7,7 +7,7 @@ test("my first test with jest", () => {
 });
 
 test("adds 1 + 2 equal 3'", () => {
-  expect(sum(1,2)).toBe(4);
+  expect(sum(1, 2)).toBe(3);
 });
 
 /** example for test-block */
@@ -68,12 +68,16 @@ describe("conditional testing", () => {
     expect(val).toBe("this is true");
   });
 
-  // TODO: add test for false path (compare coverage after)
+  test("false path", () => {
+    const val = condition(false);
+
+    expect(val).toBe(-1);
+  });
 });
 
 /** example for class testing */
 describe("Point testing", () => {
-  let sut; // System Under Test... instance of 
+  let sut; // System Under Test... instance of
 
   // SETUP for EACH test (create new Point for each test)
   // alternate `beforeAll` will run just once for (describe) block
@@ -88,13 +92,15 @@ describe("Point testing", () => {
   });
 
   it("should calculate correct distance from other Point", () => {
-    // check https://www.calculatorsoup.com/calculators/geometry-plane/distance-two-points.php to simple create a second Point and the desired distance
-    fail('implement me...');
+    const newPoint = new Point(8, -3);
+    const distance = sut.distance(newPoint);
+
+    expect(distance).toBe(4);
   });
 
   it("should throw an error on wrong type", () => {
-    fail('implement me...');
+    expect(() => {
+      sut.distance("not a point");
+    }).toThrow(Error("invalid type"));
   });
-
-  // TODO (optional): add additional tests, e.g. check if the change of x/y will work correctly
 });
