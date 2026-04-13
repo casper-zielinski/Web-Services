@@ -31,6 +31,7 @@
   },
   "homepage": "https://git-iit.fh-joanneum.at/msd-webserv/ss24_techdemos/exercises/testing#readme",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "jest": "^29.7.0"
   }
 }
