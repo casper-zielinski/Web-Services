@@ -1,0 +1,47 @@
+{
+  "name": "websocket-testing",
+  "version": "1.0.0",
+  "description": "Test a WebSocket with Jest",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --silent --watch",
+    "test:coverage": "jest --silent --coverage",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git-iit.fh-joanneum.at/msd-webserv/ss25-exercises/testing.git"
+  },
+  "keywords": [
+    "node",
+    "javascript",
+    "jest",
+    "unit-testing",
+    "websocket"
+  ],
+  "author": "Michael Ulm, FH JOANNEUM GmbH <michael.ulm@fh-joanneum.at>",
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    },
+    {
+      "name": "Harald Schwab",
+      "email": "harald.schwab2@fh-joanneum.at"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://git-iit.fh-joanneum.at/msd-webserv/ss25-exercises/testing/issues"
+  },
+  "homepage": "https://git-iit.fh-joanneum.at/msd-webserv/ss25-exercises/testing#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

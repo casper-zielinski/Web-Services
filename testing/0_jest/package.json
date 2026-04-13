@@ -1,0 +1,36 @@
+{
+  "name": "jest-testing",
+  "version": "1.0.1",
+  "description": "Your first steps in JavaScript/Node UNIT testing with JEST",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git-iit.fh-joanneum.at/msd-webserv/ss24_techdemos/exercises/testing.git"
+  },
+  "keywords": [
+    "javascript",
+    "testing",
+    "jest",
+    "unittest",
+    "test-automation",
+    "node"
+  ],
+  "author": "Harald Schwab, FH JOANNEUM GmbH <harald.schwab2@fh-joanneum.at>",
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://git-iit.fh-joanneum.at/msd-webserv/ss24_techdemos/exercises/testing/issues"
+  },
+  "homepage": "https://git-iit.fh-joanneum.at/msd-webserv/ss24_techdemos/exercises/testing#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

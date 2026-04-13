@@ -1,0 +1,7 @@
+.vscode/
+node_modules/
+coverage/
+.idea/
+*.iml
+sum.js
+__tests__/sum.test.js

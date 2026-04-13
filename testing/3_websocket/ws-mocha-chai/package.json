@@ -1,0 +1,45 @@
+{
+  "name": "websocket-testing-mocha-chai",
+  "version": "1.0.0",
+  "description": "Test a WebSocket-app with Mocha and Chai",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git-iit.fh-joanneum.at/msd-webserv/ss25-exercises/testing.git"
+  },
+  "keywords": [
+    "node",
+    "javascript",
+    "mocha",
+    "unit-testing",
+    "websocket"
+  ],
+  "author": "Michael Ulm, FH JOANNEUM GmbH <michael.ulm@fh-joanneum.at>",
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    },
+    {
+      "name": "Harald Schwab",
+      "email": "harald.schwab2@fh-joanneum.at"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://git-iit.fh-joanneum.at/msd-webserv/ss25-exercises/testing/issues"
+  },
+  "homepage": "https://git-iit.fh-joanneum.at/msd-webserv/ss25-exercises/testing#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "ws": "^8.18.1",
+    "chai": "^4.5.0",
+    "chai-http": "^4.4.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.8.2"
+  }
+}
