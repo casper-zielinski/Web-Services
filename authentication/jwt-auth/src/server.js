@@ -2,7 +2,8 @@
 
 import express from "express";
 import dotenv from "dotenv";
-import { authenticate, verify, USERS } from "./auth.js";
+import { authenticate, verify, hashPassword, createToken } from "./auth.js";
+import { addUser, getUserById } from "./user.js";
 dotenv.config();
 
 const SERVER_PORT = process.env.PORT || 3000;
@@ -36,12 +37,31 @@ app.post("/login", async (req, res) => {
   res.status(401).json({ error: "Invalid credentials" });
 });
 
+app.post("/register", async (req, res) => {
+  const { username, password, fullname, role } = req.body;
+
+  if (username && password && fullname && role) {
+    const hashedPassword = hashPassword(password);
+    const id = addUser({
+      username: username,
+      fullname: fullname,
+      role: role,
+      password: (await hashedPassword).toString(),
+    });
+
+    const JWT = createToken(username, hashedPassword, id);
+    return res.status(201).json({ message: "User Created", token: JWT });
+  }
+
+  return res.status(400).json({ message: "Required fields missing" });
+});
+
 /**
  * Protected route:
  * Requires valid JWT token in Authorization header (Bearer)
  */
 app.get("/me", verify, (req, res) => {
-  const user = USERS.find((u) => u.id === req.userId);
+  const user = getUserById(req.userId);
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -52,7 +72,11 @@ app.get("/me", verify, (req, res) => {
 });
 
 app.get("/admin", verify, (req, res) => {
-  const user = USERS.find((user) => user.id === req.userId);
+  const user = getUserById(req.userId);
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
 
   if (user.role !== "admin") {
     return res.status(403).json({ error: "Forbidden" });

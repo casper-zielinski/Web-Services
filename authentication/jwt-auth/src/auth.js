@@ -2,30 +2,25 @@
 
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import { getUserById, addUser, getUsers } from "./user.js";
 dotenv.config();
 
 // Secret used to sign JWTs.
 // In production, replace this with a secure environment variable.
 const SECRET = process.env.JWT_SECRET || "TopSecret!";
+const experationDuration = 3600;
 
 // Example user database (in-memory)
-export const USERS = [
-  {
-    id: 1,
-    username: "admin",
-    password: "secure", // In optional step: replace with hashed value
-    fullname: "Admin Administrator",
-    role: "admin",
-  },
-  {
-    id: 2,
-    username: "user",
-    password: "keines",
-    fullname: "User Useronimus",
-    role: "employe",
-  },
-];
+export function createToken(username, password, id) {
+  const user = getUserById(id);
+
+  if (user) {
+    return jwt.sign({ sub: id }, SECRET, { expiresIn: experationDuration });
+  }
+
+  return undefined;
+}
 
 /**
  * Authenticate a user.
@@ -34,11 +29,13 @@ export const USERS = [
  * @returns {string|undefined} JWT token if credentials are valid, otherwise undefined
  */
 export async function authenticate(username, password) {
-  const user = USERS.find((u) => u.username === username);
+  const user = getUsers().find((u) => u.username === username);
 
   // In production: use bcrypt.compare instead of plain-text comparison
-  if (user && await bcrypt.compare(password, user.password)) {
-    return jwt.sign({ sub: user.id }, SECRET, { expiresIn: 3600 }); // Token valid for 1 hour
+  if (user && (await bcrypt.compare(password, user.password))) {
+    return jwt.sign({ sub: user.id }, SECRET, {
+      expiresIn: experationDuration,
+    }); // Token valid for 1 hour
   }
 
   return undefined;
@@ -68,4 +65,10 @@ export async function verify(req, res, next) {
   } else {
     return res.status(401).json({ error: "Invalid Authorization format" });
   }
+}
+
+export async function hashPassword(password) {
+  const saltRounds = 10;
+  const hash = await bcrypt.hash(password, saltRounds);
+  return hash;
 }
