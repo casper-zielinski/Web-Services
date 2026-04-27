@@ -1,0 +1,32 @@
+{
+  "name": "form-auth-exercise",
+  "version": "1.0.0",
+  "description": "Education example for Authentication with Form-Based Auth and Session-Handling with Cookies\"",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    },
+    {
+      "name": "Harald Schwab",
+      "email": "harald.schwab2@fh-joanneum.at"
+    }
+  ],
+  "license": "GPL-3.0",
+  "type": "module",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/express": "^4.17.13",
+    "@types/uuid": "^8.3.4",
+    "nodemon": "^2.0.16"
+  }
+}

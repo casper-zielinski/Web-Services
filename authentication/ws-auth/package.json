@@ -1,0 +1,25 @@
+{
+  "name": "ws-auth-exercise",
+  "version": "1.0.0",
+  "description": "Education example for Authentication via WebSocket",
+  "main": "server.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "contributors": [
+    {
+      "name": "Michael Ulm",
+      "email": "michael.ulm@fh-joanneum.at"
+    },
+    {
+      "name": "Harald Schwab",
+      "email": "harald.schwab2@fh-joanneum.at"
+    }
+  ],
+  "license": "GPL-3.0",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  }
+}
