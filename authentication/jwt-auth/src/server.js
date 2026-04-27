@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-import express from 'express';
-import dotenv from 'dotenv';
-import { authenticate, verify, USERS } from './auth.js';
+import express from "express";
+import dotenv from "dotenv";
+import { authenticate, verify, USERS } from "./auth.js";
 dotenv.config();
 
 const SERVER_PORT = process.env.PORT || 3000;
@@ -15,15 +15,15 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Public route (no authentication required)
  */
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello my friend, Stay awhile and listen...' });
+app.get("/", (req, res) => {
+  res.json({ message: "Hello my friend, Stay awhile and listen..." });
 });
 
 /**
  * Login endpoint:
  * Accepts username/password and returns JWT token on success
  */
-app.post('/login', async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (username && password) {
@@ -33,26 +33,36 @@ app.post('/login', async (req, res) => {
     }
   }
 
-  res.status(401).json({ error: 'Invalid credentials' });
+  res.status(401).json({ error: "Invalid credentials" });
 });
 
 /**
  * Protected route:
  * Requires valid JWT token in Authorization header (Bearer)
  */
-app.get('/me', verify, (req, res) => {
-  const user = USERS.find(u => u.id === req.userId);
+app.get("/me", verify, (req, res) => {
+  const user = USERS.find((u) => u.id === req.userId);
 
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
 
   const { password, ...safeUser } = user; // Don't expose password
   res.json(safeUser);
 });
 
+app.get("/admin", verify, (req, res) => {
+  const user = USERS.find((user) => user.id === req.userId);
+
+  if (user.role !== "admin") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  res.json({ message: "Admin access granted" });
+});
+
 // Serve static frontend files (optional frontend integration)
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // Start server
 app.listen(SERVER_PORT, () => {
