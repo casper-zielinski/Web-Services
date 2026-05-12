@@ -13,9 +13,9 @@ export function validateLimit(limit?: string): number {
 }
 
 export function validateCursor(cursor?: string): number {
-  let parsedCursor = parseInt(cursor ?? "0");
-  if (isNaN(parsedCursor)) {
-    return 0;
+  let parsedCursor = parseInt(cursor ?? "-1");
+  if (isNaN(parsedCursor) || parsedCursor <= 0) {
+    return -1;
   }
   parsedCursor = Math.abs(parsedCursor);
   return parsedCursor;

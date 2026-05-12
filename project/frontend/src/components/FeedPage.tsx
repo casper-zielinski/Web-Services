@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { usePostsApi } from "../hooks/usePostsApi";
+import { useFetchPosts } from "../hooks/usePostsApi";
 import ErrorComponent from "./ErrorComponent";
 import LoadingComponent from "./LoadingComponent";
 import PostCard from "./PostCard";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import { Poster } from "./Poster";
 
 const FeedPage = () => {
   const [cursor, setCursor] = useState<number | null>(0);
-  const { error, loading, nextCursor, posts } = usePostsApi({
+  const { error, loading, nextCursor, posts, setPosts } = useFetchPosts({
     cursor: cursor,
     limit: 10,
   });
@@ -19,6 +20,8 @@ const FeedPage = () => {
   return (
     <div className="max-w-xl mx-auto py-8 px-4">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Post Feed</h1>
+
+      <Poster postSetter={setPosts}/>
 
       <main className="space-y-4">
         {posts.map((post, index) => (

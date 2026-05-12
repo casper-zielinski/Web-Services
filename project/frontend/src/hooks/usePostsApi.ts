@@ -3,13 +3,18 @@ import type { Post } from "../../../backend/src/db/schema";
 import { fetchPosts } from "../api/postsApi";
 import type { GetRequest } from "../../../backend/src/dto/posts/getRequest";
 import axios from "axios";
+import type { NewPost } from "../../../backend/src/db/schema.js";
 
-export interface UsePostApiProps {
+export interface UseFetchPostsProps {
   cursor: number | null;
   limit: number;
 }
 
-export function usePostsApi({ cursor, limit }: UsePostApiProps) {
+export interface UseSendPostsProps {
+  newPost: NewPost | null;
+}
+
+export function useFetchPosts({ cursor, limit }: UseFetchPostsProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -41,5 +46,6 @@ export function usePostsApi({ cursor, limit }: UsePostApiProps) {
     return () => controller.abort();
   }, [cursor, limit]);
 
-  return { loading, error, posts, nextCursor };
+  return { loading, error, posts, setPosts, nextCursor };
 }
+
