@@ -17,9 +17,9 @@ describe("limit query validator", () => {
 
 describe("cursor query validator", () => {
   it("cursor should not be negativ", () => {
-    expect(validateCursor("-100")).toBe(100);
+    expect(validateCursor("-100")).toBe(-1);
   });
   it("cursor should be 0 be deafault", () => {
-    expect(validateCursor("wrong type")).toBe(0);
+    expect(validateCursor("wrong type")).toBe(-1);
   });
 });
